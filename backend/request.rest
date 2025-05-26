@@ -1,0 +1,43 @@
+GET http://localhost:5000/notes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhIiwiaWF0IjoxNzQ3ODI2NDMwLCJleHAiOjE3NDc4MjY0NjB9.2jL_y62HdWh9eoB0J14kcAWPemHkWcwVnyRe6YvFv3M
+
+###
+POST http://localhost:5000/add-notes
+Content-Type: application/json
+
+{
+    "judul": "day1",
+    "isi": "Male"
+}
+
+###
+PUT  http://localhost:5000/note/1
+Content-Type: application/json
+
+{
+    "judul": "day1",
+    "isi": "apa"
+}
+
+###
+DELETE http://localhost:5000/note/1
+
+###
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+  "username": "a",
+  "password": "1",
+  "confirm_password": "1"
+}
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "username": "a",
+  "password": "1"
+  
+}
