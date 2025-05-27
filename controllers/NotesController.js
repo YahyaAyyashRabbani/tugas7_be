@@ -38,30 +38,36 @@ export const getNotes = async (req, res) => {
 
 export const updateNotes = async (req, res) => {
   const { id } = req.params;
-
   const userId = req.user.id;
   const { title, content } = req.body;
+
+  if (!title || !content) {
+    return res.status(400).json({ message: "Title dan content harus diisi" });
+  }
+
   try {
-    const notes = await Notes.update(
-      {
-        title,
-        content,
-      },
-      {
-        where: {
-          id,
-        },
-      }
+    const [updatedCount] = await Notes.update(
+      { title, content },
+      { where: { id, userId } }
     );
+
+    if (updatedCount === 0) {
+      return res.status(404).json({ message: "Notes tidak ditemukan atau bukan milik Anda" });
+    }
+
+    // Query ulang data yang baru diupdate
+    const updatedNote = await Notes.findOne({ where: { id, userId } });
+
     res.status(200).json({
       message: "Notes berhasil diupdate",
       userId,
-      data: notes,
+      data: updatedNote,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 export const deleteNotes = async (req, res) => {
   const { id } = req.params;
